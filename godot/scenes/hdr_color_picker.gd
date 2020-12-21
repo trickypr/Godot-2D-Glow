@@ -3,10 +3,14 @@ extends Panel
 var intensity = 0 setget set_intensity
 onready var base_color = $VBoxContainer/ColorPicker.color
 onready var hdr_color = $VBoxContainer/ColorPicker.color setget set_hdr_color
+onready var color_raw = $VBoxContainer/TextEdit
 signal color_changed
 
 func _ready():
 	set_intensity(intensity)
+
+func _show_color():
+	color_raw.text = "r: " + str(hdr_color.r) + " g: " + str(hdr_color.g) + " b: " + str(hdr_color.b) + " a: " + str(hdr_color.a) 
 
 func set_intensity(value):
 	intensity = value
@@ -21,6 +25,7 @@ func set_intensity(value):
 		image.fill(swatch_color)
 		texture.create_from_image(image)
 		swatch.texture = texture
+	_show_color()
 	emit_signal("color_changed", hdr_color)
 
 func _on_ColorPicker_color_changed(color):
